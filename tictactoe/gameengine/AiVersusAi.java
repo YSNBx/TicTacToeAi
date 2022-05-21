@@ -7,13 +7,13 @@ import tictactoe.components.GameGrid;
 
 import java.util.Scanner;
 
-public class PlayerVersusAi implements SuperInterface {
+public class AiVersusAi implements SuperInterface {
     private GameGrid gameGrid;
     private char playerTurn;
     private Ai artificialPlayer;
     private final Scanner scanner;
 
-    public PlayerVersusAi(GameGrid gameGrid, Ai artificialPlayer) {
+    public AiVersusAi(GameGrid gameGrid, Ai artificialPlayer) {
         this.gameGrid = gameGrid;
         gameGrid.initGrid();
         this.playerTurn = PlayerTurnEnums.PLAYER_X.getTurn();
@@ -41,32 +41,16 @@ public class PlayerVersusAi implements SuperInterface {
         }
     }
 
-    public void turnForX() {
-        System.out.println("Enter the coordinates: ");
-
-        int[] coordinates = this.checkInput();
-        this.checkSpotAndMakeMove(coordinates);
-    }
-
     public void turnForO() {
         System.out.println("Making move level \"easy\"");
 
         this.makeMoveIfPossible();
     }
 
-    public int[] checkInput() {
-        String[] input = scanner.nextLine().split("\\s");
-        int[] coordinates = new int[2];
+    public void turnForX() {
+        System.out.println("Making move level \"easy\"");
 
-        try {
-            coordinates[0] = Integer.parseInt(input[0]) - 1;
-            coordinates[1] = Integer.parseInt(input[1]) - 1;
-        } catch (NumberFormatException e) {
-            System.out.println("You should enter numbers!");
-            this.checkInput();
-        }
-
-        return coordinates;
+        this.makeMoveIfPossible();
     }
 
     public void makeMoveIfPossible() {
@@ -75,23 +59,10 @@ public class PlayerVersusAi implements SuperInterface {
         int secondCoordinate = coordinates[1];
 
         if (this.gameGrid.getBoard()[firstCoordinate][secondCoordinate] == '_') {
-            this.gameGrid.setBoard(firstCoordinate, secondCoordinate, PlayerTurnEnums.PLAYER_O.getTurn());
+            this.gameGrid.setBoard(firstCoordinate, secondCoordinate, this.playerTurn);
         } else {
             this.makeMoveIfPossible();
         }
-    }
-
-    public void checkSpotAndMakeMove(int[] coordinates) {
-        if (this.gameGrid.getBoard()[coordinates[0]][coordinates[1]] != '_') {
-            this.printErrorAndAskAgain();
-        } else {
-            this.gameGrid.setBoard(coordinates[0], coordinates[1], PlayerTurnEnums.PLAYER_X.getTurn());
-        }
-    }
-
-    public void printErrorAndAskAgain() {
-        System.out.println("This cell is occupied! Choose another one!");
-        this.turnForX();
     }
 
     public void changePlayer(char turn) {

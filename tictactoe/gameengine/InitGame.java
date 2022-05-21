@@ -7,14 +7,12 @@ import tictactoe.components.GameGrid;
 import tictactoe.components.InterfaceController;
 
 public class InitGame {
-    private String choice;
     private InterfaceController interfaceController;
     private final Scanner scanner;
 
-    public InitGame(Scanner scanner) {
-        this.scanner = scanner;
-        this.choice = null;
+    public InitGame() {
         this.interfaceController = new InterfaceController();
+        this.scanner = new Scanner(System.in);
     }
 
     public void init() {
@@ -47,7 +45,7 @@ public class InitGame {
         Ai ai = new Ai();
         GameGrid grid = new GameGrid();
 
-        this.interfaceController.setInterface(new PlayerVersusAi(grid, ai, this.scanner));
+        this.interfaceController.setInterface(new PlayerVersusAi(grid, ai));
         this.interfaceController.execute();
     }
 
@@ -55,11 +53,15 @@ public class InitGame {
         Ai ai = new Ai();
         GameGrid grid = new GameGrid();
 
-        this.interfaceController.setInterface(new AiVersusPlayer(grid, ai, this.scanner));
+        this.interfaceController.setInterface(new AiVersusPlayer(grid, ai));
         this.interfaceController.execute();
     }
 
     public void executeAiVsAi() {
-
+        Ai ai = new Ai();
+        GameGrid grid = new GameGrid();
+        
+        this.interfaceController.setInterface(new AiVersusAi(grid, ai));
+        this.interfaceController.execute();
     }
 }
