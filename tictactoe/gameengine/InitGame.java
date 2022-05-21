@@ -37,7 +37,6 @@ public class InitGame {
             this.executeAiVsAi();
         } else {
             System.out.println("Bad parameters!");
-            this.init();
         }
     }
 
@@ -60,7 +59,7 @@ public class InitGame {
     public void executeAiVsAi() {
         Ai ai = new Ai();
         GameGrid grid = new GameGrid();
-        
+
         this.interfaceController.setInterface(new AiVersusAi(grid, ai));
         this.interfaceController.execute();
     }
