@@ -2,11 +2,11 @@ package tictactoe;
 
 import java.util.Scanner;
 
-import tictactoe.gameengine.ChooseGame;
+import tictactoe.gameengine.InitGame;
 
 public class Main {
     public static void main(String[] args) {
-        ChooseGame game = new ChooseGame(new Scanner(System.in));
-        game.executeProgram();
+        InitGame game = new InitGame(new Scanner(System.in));
+        game.init();
     }
 }

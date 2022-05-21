@@ -7,13 +7,13 @@ import tictactoe.components.GameGrid;
 
 import java.util.Scanner;
 
-public class PlayerVersusAi implements SuperInterface {
+public class AiVersusPlayer implements SuperInterface {
     private final Scanner scanner;
     private GameGrid gameGrid;
     private char playerTurn;
     private Ai artificialPlayer;
 
-    public PlayerVersusAi(GameGrid gameGrid, Ai artificialPlayer, Scanner scanner) {
+    public AiVersusPlayer(GameGrid gameGrid, Ai artificialPlayer, Scanner scanner) {
         this.scanner = scanner;
         this.gameGrid = gameGrid;
         gameGrid.initGrid();
@@ -41,14 +41,14 @@ public class PlayerVersusAi implements SuperInterface {
         }
     }
 
-    public void turnForX() {
+    public void turnForO() {
         System.out.println("Enter the coordinates: ");
 
         int[] coordinates = this.checkInput();
         this.checkSpotAndMakeMove(coordinates);
     }
 
-    public void turnForO() {
+    public void turnForX() {
         System.out.println("Making move level \"easy\"");
 
         this.makeMoveIfPossible();
@@ -75,7 +75,7 @@ public class PlayerVersusAi implements SuperInterface {
         int secondCoordinate = coordinates[1];
 
         if (this.gameGrid.getBoard()[firstCoordinate][secondCoordinate] == '_') {
-            this.gameGrid.setBoard(firstCoordinate, secondCoordinate, PlayerTurnEnums.PLAYER_O.getTurn());
+            this.gameGrid.setBoard(firstCoordinate, secondCoordinate, this.playerTurn);
         } else {
             this.makeMoveIfPossible();
         }
@@ -85,7 +85,7 @@ public class PlayerVersusAi implements SuperInterface {
         if (this.gameGrid.getBoard()[coordinates[0]][coordinates[1]] != '_') {
             this.printErrorAndAskAgain();
         } else {
-            this.gameGrid.setBoard(coordinates[0], coordinates[1], PlayerTurnEnums.PLAYER_X.getTurn());
+            this.gameGrid.setBoard(coordinates[0], coordinates[1], this.playerTurn);
         }
     }
 
