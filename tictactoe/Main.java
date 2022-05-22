@@ -1,7 +1,5 @@
 package tictactoe;
 
-import java.util.Scanner;
-
 import tictactoe.gameengine.InitGame;
 
 public class Main {

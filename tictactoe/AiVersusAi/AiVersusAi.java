@@ -1,24 +1,20 @@
-package tictactoe.gameengine;
+package tictactoe.AiVersusAi;
 
-import tictactoe.playerconstants.PlayerTurnEnums;
 import tictactoe.ui.SuperInterface;
 import tictactoe.components.Ai;
 import tictactoe.components.GameGrid;
-
-import java.util.Scanner;
+import tictactoe.playerconstants.PlayerTurnEnums;
 
 public class AiVersusAi implements SuperInterface {
     private GameGrid gameGrid;
     private char playerTurn;
     private Ai artificialPlayer;
-    private final Scanner scanner;
 
     public AiVersusAi(GameGrid gameGrid, Ai artificialPlayer) {
         this.gameGrid = gameGrid;
         gameGrid.initGrid();
         this.playerTurn = PlayerTurnEnums.PLAYER_X.getTurn();
         this.artificialPlayer = artificialPlayer;
-        this.scanner = new Scanner(System.in);
     }
 
     @Override

@@ -1,12 +1,12 @@
-package tictactoe.gameengine;
+package tictactoe.playerversusai;
 
-import tictactoe.playerconstants.PlayerTurnEnums;
+
 import tictactoe.ui.SuperInterface;
-
-import java.util.Scanner;
-
 import tictactoe.components.Ai;
 import tictactoe.components.GameGrid;
+import tictactoe.playerconstants.PlayerTurnEnums;
+
+import java.util.Scanner;
 
 public class AiVersusPlayer implements SuperInterface {
     private GameGrid gameGrid;

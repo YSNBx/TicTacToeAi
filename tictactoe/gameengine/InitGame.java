@@ -2,9 +2,12 @@ package tictactoe.gameengine;
 
 import java.util.Scanner;
 
+import tictactoe.AiVersusAi.AiVersusAi;
 import tictactoe.components.Ai;
 import tictactoe.components.GameGrid;
 import tictactoe.components.InterfaceController;
+import tictactoe.playerversusai.AiVersusPlayer;
+import tictactoe.playerversusai.PlayerVersusAiEasy;
 
 public class InitGame {
     private InterfaceController interfaceController;
@@ -44,7 +47,7 @@ public class InitGame {
         Ai ai = new Ai();
         GameGrid grid = new GameGrid();
 
-        this.interfaceController.setInterface(new PlayerVersusAi(grid, ai));
+        this.interfaceController.setInterface(new PlayerVersusAiEasy(grid, ai));
         this.interfaceController.execute();
     }
 
