@@ -7,6 +7,7 @@ import tictactoe.components.Ai;
 import tictactoe.components.GameGrid;
 import tictactoe.components.InterfaceController;
 import tictactoe.playerversusai.AiVersusPlayer;
+
 import tictactoe.playerversusai.PlayerVersusAiEasy;
 
 public class InitGame {
@@ -26,7 +27,6 @@ public class InitGame {
             if (command.equals("exit")) {
                 break;
             }
-
             this.evaluateCommand(command);
         }
     }

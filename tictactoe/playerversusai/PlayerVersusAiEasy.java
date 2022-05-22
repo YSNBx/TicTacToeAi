@@ -15,10 +15,10 @@ public class PlayerVersusAiEasy implements SuperInterface {
 
     public PlayerVersusAiEasy(GameGrid gameGrid, Ai artificialPlayer) {
         this.gameGrid = gameGrid;
-        gameGrid.initGrid();
-        this.playerTurn = PlayerTurnEnums.PLAYER_X.getTurn();
         this.artificialPlayer = artificialPlayer;
+        this.playerTurn = PlayerTurnEnums.PLAYER_X.getTurn();
         this.scanner = new Scanner(System.in);
+        gameGrid.initGrid();
     }
 
     @Override
@@ -30,25 +30,29 @@ public class PlayerVersusAiEasy implements SuperInterface {
                 break;
             }
 
-            if (this.playerTurn == PlayerTurnEnums.PLAYER_X.getTurn()) {
-                this.turnForX();
-                this.changePlayer(PlayerTurnEnums.PLAYER_O.getTurn());
-            } else {
-                this.turnForO();
-                this.changePlayer(PlayerTurnEnums.PLAYER_X.getTurn());
-            }
+            this.checkTurnAndMakeMove();
             this.gameGrid.increaseNumberOfFields();
         }
     }
 
-    public void turnForX() {
+    public void checkTurnAndMakeMove() {
+        if (this.playerTurn == PlayerTurnEnums.PLAYER_X.getTurn()) {
+            this.playerMove();
+            this.changePlayer(PlayerTurnEnums.PLAYER_O.getTurn());
+        } else {
+            this.aiMove();
+            this.changePlayer(PlayerTurnEnums.PLAYER_X.getTurn());
+        }
+    }
+
+    public void playerMove() {
         System.out.println("Enter the coordinates: ");
 
         int[] coordinates = this.checkInput();
         this.checkSpotAndMakeMove(coordinates);
     }
 
-    public void turnForO() {
+    public void aiMove() {
         System.out.println("Making move level \"easy\"");
 
         this.makeMoveIfPossible();
@@ -91,14 +95,14 @@ public class PlayerVersusAiEasy implements SuperInterface {
 
     public void printErrorAndAskAgain() {
         System.out.println("This cell is occupied! Choose another one!");
-        this.turnForX();
+        this.playerMove();
     }
 
     public void changePlayer(char turn) {
         this.playerTurn = turn;
     }
 
-    //early version checkgamestate because i'm too lazy right now
+    //early version of isGameFinished because i'm too lazy right now
 
     public boolean isGameFinished() {
         if (this.gameGrid.getBoard()[0][0] == 'X' && this.gameGrid.getBoard()[0][1] == 'X' && this.gameGrid.getBoard()[0][2] == 'X') {
