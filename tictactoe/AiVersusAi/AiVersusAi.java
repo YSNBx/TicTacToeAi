@@ -2,15 +2,15 @@ package tictactoe.AiVersusAi;
 
 import tictactoe.ui.SuperInterface;
 import tictactoe.components.Ai;
-import tictactoe.components.GameGrid;
+import tictactoe.components.GameBoard;
 import tictactoe.playerconstants.PlayerTurnEnums;
 
 public class AiVersusAi implements SuperInterface {
-    private GameGrid gameGrid;
+    private GameBoard gameGrid;
     private char playerTurn;
     private Ai artificialPlayer;
 
-    public AiVersusAi(GameGrid gameGrid, Ai artificialPlayer) {
+    public AiVersusAi(GameBoard gameGrid, Ai artificialPlayer) {
         this.gameGrid = gameGrid;
         gameGrid.initGrid();
         this.playerTurn = PlayerTurnEnums.PLAYER_X.getTurn();

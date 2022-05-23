@@ -15,6 +15,10 @@ public class Ai {
         this.coordinates[0] = firstCoordinate;
         this.coordinates[1] = secondCoordinate;
     }
+    
+    public int[] getCoordinates() {
+        return this.coordinates;
+    }
 
     public int[] generateCoordinates() {
         this.coordinates[0] = random.nextInt(3);
@@ -22,4 +26,5 @@ public class Ai {
 
         return this.coordinates;
     }
+
 }

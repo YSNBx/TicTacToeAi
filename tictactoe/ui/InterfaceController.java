@@ -1,6 +1,4 @@
-package tictactoe.components;
-
-import tictactoe.ui.SuperInterface;
+package tictactoe.ui;
 
 public class InterfaceController {
     private SuperInterface superInterface;

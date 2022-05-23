@@ -1,10 +1,10 @@
 package tictactoe.components;
 
-public class GameGrid {
+public class GameBoard {
     private char[][] board;
     private int filledFields;
 
-    public GameGrid() {
+    public GameBoard() {
         this.board = new char[3][3];
         this.filledFields = 0;
     }
@@ -43,6 +43,14 @@ public class GameGrid {
         } else {
             System.out.println("Draw");
             System.exit(0);
+        }
+    }
+
+    public void decreaseNumberOfField() {
+        if (this.filledFields == 0) {
+            System.out.println("No fields filled!");
+        } else {
+            this.filledFields--;
         }
     }
 

@@ -4,11 +4,13 @@ import java.util.Scanner;
 
 import tictactoe.AiVersusAi.AiVersusAi;
 import tictactoe.components.Ai;
-import tictactoe.components.GameGrid;
-import tictactoe.components.InterfaceController;
+import tictactoe.components.GameBoard;
 import tictactoe.playerversusai.AiVersusPlayer;
 
 import tictactoe.playerversusai.PlayerVersusAiEasy;
+import tictactoe.playerversusai.PlayerVersusAiMedium;
+import tictactoe.ui.InterfaceController;
+import tictactoe.ui.SuperInterface;
 
 public class InitGame {
     private InterfaceController interfaceController;
@@ -27,43 +29,36 @@ public class InitGame {
             if (command.equals("exit")) {
                 break;
             }
-            this.evaluateCommand(command);
+            this.setGameMode(command);
         }
     }
 
-    public void evaluateCommand(String command) {
+    public void setGameMode(String command) {
         if (command.equals("start user easy")) {
-            this.executePlayerFirst();
+            this.executePlayerFirst(new PlayerVersusAiEasy(new GameBoard(), new Ai()));
+        } else if (command.equals("start user medium")) {
+            this.executePlayerFirst(new PlayerVersusAiMedium(new GameBoard(), new Ai()));
         } else if (command.equals("start easy user")) {
-            this.executeAiFirst();
+            this.executeAiFirst(new PlayerVersusAiEasy(new GameBoard(), new Ai()));
         } else if (command.equals("start easy easy")) {
-            this.executeAiVsAi();
+            this.executeAiVsAi(new PlayerVersusAiEasy(new GameBoard(), new Ai()));
         } else {
             System.out.println("Bad parameters!");
         }
     }
 
-    public void executePlayerFirst() {
-        Ai ai = new Ai();
-        GameGrid grid = new GameGrid();
-
-        this.interfaceController.setInterface(new PlayerVersusAiEasy(grid, ai));
+    public void executePlayerFirst(SuperInterface gameMode) {
+        this.interfaceController.setInterface(gameMode);
         this.interfaceController.execute();
     }
 
-    public void executeAiFirst() {
-        Ai ai = new Ai();
-        GameGrid grid = new GameGrid();
-
-        this.interfaceController.setInterface(new AiVersusPlayer(grid, ai));
+    public void executeAiFirst(SuperInterface gameMode) {
+        this.interfaceController.setInterface(gameMode);
         this.interfaceController.execute();
     }
 
-    public void executeAiVsAi() {
-        Ai ai = new Ai();
-        GameGrid grid = new GameGrid();
-
-        this.interfaceController.setInterface(new AiVersusAi(grid, ai));
+    public void executeAiVsAi(SuperInterface gameMode) {
+        this.interfaceController.setInterface(gameMode);
         this.interfaceController.execute();
     }
 }
