@@ -46,7 +46,7 @@ public class PlayerVersusAiMedium implements SuperInterface {
     }
 
     public void playerMove() {
-        System.out.println("Enter the coordinates: ");
+        System.out.println("Enter the coordinates: (e.g. \"1 3\", with a space inbetween");
 
         int[] coordinates = this.checkInput();
         this.checkSpotAndMakeMove(coordinates);
