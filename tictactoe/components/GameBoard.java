@@ -38,20 +38,11 @@ public class GameBoard {
     }
 
     public void increaseNumberOfFields() {
-        if (this.filledFields < 9) {
-            this.filledFields++;
-        } else {
-            System.out.println("Draw");
-            System.exit(0);
-        }
+        this.filledFields++;
     }
 
-    public void decreaseNumberOfField() {
-        if (this.filledFields == 0) {
-            System.out.println("No fields filled!");
-        } else {
-            this.filledFields--;
-        }
+    public void decreaseNumberOfFields() {
+        this.filledFields--;
     }
 
     public int getFilledFields() {

@@ -1,52 +1,76 @@
-package tictactoe.AiVersusAi;
+package tictactoe.playerversusai;
+
 
 import tictactoe.ui.SuperInterface;
 import tictactoe.components.Ai;
 import tictactoe.components.GameBoard;
 import tictactoe.playerconstants.PlayerTurnEnums;
 
-public class AiVersusAi implements SuperInterface {
+import java.util.Scanner;
+
+public class AiVersusPlayerEasy implements SuperInterface {
     private GameBoard gameGrid;
     private char playerTurn;
     private Ai artificialPlayer;
+    private final Scanner scanner;
 
-    public AiVersusAi(GameBoard gameGrid, Ai artificialPlayer) {
+    public AiVersusPlayerEasy(GameBoard gameGrid, Ai artificialPlayer) {
         this.gameGrid = gameGrid;
         gameGrid.initGrid();
         this.playerTurn = PlayerTurnEnums.PLAYER_X.getTurn();
         this.artificialPlayer = artificialPlayer;
+        this.scanner = new Scanner(System.in);
     }
 
     @Override
     public void start() {
         while (true) {
             this.gameGrid.printGrid();
-            
+
             if (this.isGameFinished()) {
                 break;
             }
 
-            if (this.playerTurn == PlayerTurnEnums.PLAYER_X.getTurn()) {
-                this.turnForX();
-                this.changePlayer(PlayerTurnEnums.PLAYER_O.getTurn());
-            } else {
-                this.turnForO();
-                this.changePlayer(PlayerTurnEnums.PLAYER_X.getTurn());
-            }
+            this.checkTurnAndMakeMove();
             this.gameGrid.increaseNumberOfFields();
         }
     }
 
-    public void turnForO() {
-        System.out.println("Making move level \"easy\"");
+    public void checkTurnAndMakeMove() {
+        if (this.playerTurn == PlayerTurnEnums.PLAYER_X.getTurn()) {
+            this.turnForX();
+            this.changePlayer();
+        } else {
+            this.turnForO();
+            this.changePlayer();
+        }
+    }
 
-        this.makeMoveIfPossible();
+    public void turnForO() {
+        System.out.println("Enter the coordinates: ");
+
+        int[] coordinates = this.checkInput();
+        this.checkSpotAndMakeMove(coordinates);
     }
 
     public void turnForX() {
         System.out.println("Making move level \"easy\"");
-
         this.makeMoveIfPossible();
+    }
+
+    public int[] checkInput() {
+        String[] input = scanner.nextLine().split("\\s");
+        int[] coordinates = new int[2];
+
+        try {
+            coordinates[0] = Integer.parseInt(input[0]) - 1;
+            coordinates[1] = Integer.parseInt(input[1]) - 1;
+        } catch (NumberFormatException e) {
+            System.out.println("You should enter numbers!");
+            this.checkInput();
+        }
+
+        return coordinates;
     }
 
     public void makeMoveIfPossible() {
@@ -61,8 +85,25 @@ public class AiVersusAi implements SuperInterface {
         }
     }
 
-    public void changePlayer(char turn) {
-        this.playerTurn = turn;
+    public void checkSpotAndMakeMove(int[] coordinates) {
+        if (this.gameGrid.getBoard()[coordinates[0]][coordinates[1]] != '_') {
+            this.printErrorAndAskAgain();
+        } else {
+            this.gameGrid.setBoard(coordinates[0], coordinates[1], this.playerTurn);
+        }
+    }
+
+    public void printErrorAndAskAgain() {
+        System.out.println("This cell is occupied! Choose another one!");
+        this.turnForX();
+    }
+
+    public void changePlayer() {
+        if (this.playerTurn == PlayerTurnEnums.PLAYER_X.getTurn()) {
+            this.playerTurn = PlayerTurnEnums.PLAYER_O.getTurn();
+        } else {
+            this.playerTurn = PlayerTurnEnums.PLAYER_X.getTurn();
+        }
     }
 
     //early version checkgamestate because i'm too lazy right now

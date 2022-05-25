@@ -15,10 +15,10 @@ public class PlayerVersusAiEasy implements SuperInterface {
 
     public PlayerVersusAiEasy(GameBoard gameGrid, Ai artificialPlayer) {
         this.gameGrid = gameGrid;
+        gameGrid.initGrid();
         this.artificialPlayer = artificialPlayer;
         this.playerTurn = PlayerTurnEnums.PLAYER_X.getTurn();
         this.scanner = new Scanner(System.in);
-        gameGrid.initGrid();
     }
 
     @Override
@@ -38,15 +38,15 @@ public class PlayerVersusAiEasy implements SuperInterface {
     public void checkTurnAndMakeMove() {
         if (this.playerTurn == PlayerTurnEnums.PLAYER_X.getTurn()) {
             this.playerMove();
-            this.changePlayer(PlayerTurnEnums.PLAYER_O.getTurn());
+            this.changePlayer();
         } else {
             this.aiMove();
-            this.changePlayer(PlayerTurnEnums.PLAYER_X.getTurn());
+            this.changePlayer();
         }
     }
 
     public void playerMove() {
-        System.out.println("Enter the coordinates: ");
+        System.out.println("Enter the coordinates: (e.g. \"1 3\", with a space inbetween");
 
         int[] coordinates = this.checkInput();
         this.checkSpotAndMakeMove(coordinates);
@@ -54,7 +54,6 @@ public class PlayerVersusAiEasy implements SuperInterface {
 
     public void aiMove() {
         System.out.println("Making move level \"easy\"");
-
         this.makeMoveIfPossible();
     }
 
@@ -69,7 +68,6 @@ public class PlayerVersusAiEasy implements SuperInterface {
             System.out.println("You should enter numbers!");
             this.checkInput();
         }
-
         return coordinates;
     }
 
@@ -98,11 +96,15 @@ public class PlayerVersusAiEasy implements SuperInterface {
         this.playerMove();
     }
 
-    public void changePlayer(char turn) {
-        this.playerTurn = turn;
+    public void changePlayer() {
+        if (this.playerTurn == PlayerTurnEnums.PLAYER_X.getTurn()) {
+            this.playerTurn = PlayerTurnEnums.PLAYER_O.getTurn();
+        } else {
+            this.playerTurn = PlayerTurnEnums.PLAYER_X.getTurn();
+        }
     }
 
-    //early version of isGameFinished because i'm too lazy right now
+    //first quick version of isGameFinished
 
     public boolean isGameFinished() {
         if (this.gameGrid.getBoard()[0][0] == 'X' && this.gameGrid.getBoard()[0][1] == 'X' && this.gameGrid.getBoard()[0][2] == 'X') {

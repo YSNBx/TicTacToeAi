@@ -1,28 +1,31 @@
 package tictactoe.playerversusai;
 
-import tictactoe.playerconstants.PlayerTurnEnums;
+
 import tictactoe.ui.SuperInterface;
 import tictactoe.components.Ai;
 import tictactoe.components.GameBoard;
+import tictactoe.playerconstants.PlayerTurnEnums;
 
 import java.util.Scanner;
 
-public class PlayerVersusAiMedium implements SuperInterface {
-    private final GameBoard gameBoard;
+public class AiVersusPlayerMedium implements SuperInterface {
+    private GameBoard gameBoard;
     private char playerTurn;
-    private final Ai artificialPlayer;
+    private Ai artificialPlayer;
     private final Scanner scanner;
 
-    public PlayerVersusAiMedium(GameBoard gameBoard, Ai artificialPlayer) {
+    public AiVersusPlayerMedium(GameBoard gameBoard, Ai artificialPlayer) {
         this.gameBoard = gameBoard;
-        this.artificialPlayer = artificialPlayer;
-        this.playerTurn = PlayerTurnEnums.PLAYER_X.getTurn();
-        this.scanner = new Scanner(System.in);
         gameBoard.initGrid();
+        this.playerTurn = PlayerTurnEnums.PLAYER_X.getTurn();
+        this.artificialPlayer = artificialPlayer;
+        this.scanner = new Scanner(System.in);
     }
 
     @Override
     public void start() {
+        this.firstAiMove();
+
         while (true) {
             this.gameBoard.printGrid();
 
@@ -35,12 +38,18 @@ public class PlayerVersusAiMedium implements SuperInterface {
         }
     }
 
+    public void firstAiMove() {
+        this.makeMoveIfPossible();
+        this.gameBoard.increaseNumberOfFields();
+        this.changePlayer();
+    }
+
     public void checkTurnAndMakeMove() {
         if (this.playerTurn == PlayerTurnEnums.PLAYER_X.getTurn()) {
-            this.playerMove();
+            this.aiMove();
             this.changePlayer();
         } else {
-            this.aiMove();
+            this.playerMove();
             this.changePlayer();
         }
     }
@@ -53,7 +62,7 @@ public class PlayerVersusAiMedium implements SuperInterface {
     }
 
     public void aiMove() {
-        System.out.println("Making move level \"medium\"");
+        System.out.println("Making move level \"easy\"");
 
         this.evaluateBestMove();
     }
@@ -68,8 +77,8 @@ public class PlayerVersusAiMedium implements SuperInterface {
                     this.gameBoard.getBoard()[i][j] = PlayerTurnEnums.PLAYER_O.getTurn();
                     this.gameBoard.increaseNumberOfFields();
                     int score = minimax(this.gameBoard.getBoard(), 0, false);
-                    this.gameBoard.decreaseNumberOfFields();
                     this.gameBoard.getBoard()[i][j] = '_';
+                    this.gameBoard.decreaseNumberOfFields();
                     if (score > bestScore) {
                         bestScore = score;
                         move[0] = i;
@@ -82,14 +91,14 @@ public class PlayerVersusAiMedium implements SuperInterface {
     }
 
     public boolean checkDraw() {
-        return this.gameBoard.getFilledFields() == 9;
+        return this.gameBoard.getFilledFields() == 8;
     }
 
     public int minimax(char[][] gameBoard, int depth, boolean isMaximizing) {
         if (this.checkWhoWon(PlayerTurnEnums.PLAYER_O.getTurn())) {
-            return 1;
+            return 100;
         } else if (this.checkWhoWon(PlayerTurnEnums.PLAYER_X.getTurn())) {
-            return -1;
+            return -100;
         } else if (this.checkDraw()) {
             return 0;
         }
@@ -101,7 +110,7 @@ public class PlayerVersusAiMedium implements SuperInterface {
                     if (this.gameBoard.getBoard()[i][j] == '_') {
                         this.gameBoard.getBoard()[i][j] = PlayerTurnEnums.PLAYER_O.getTurn();
                         this.gameBoard.increaseNumberOfFields();
-                        int score = minimax(this.gameBoard.getBoard(), depth + 1, false);
+                        int score = minimax(this.gameBoard.getBoard(), depth + 1, true);
                         this.gameBoard.getBoard()[i][j] = '_';
                         this.gameBoard.decreaseNumberOfFields();
                         bestScore = Math.max(bestScore, score);
@@ -109,14 +118,14 @@ public class PlayerVersusAiMedium implements SuperInterface {
                 }
             }
             return bestScore;
-        }  else {
+        } else {
             int bestScore = 99999;
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
                     if (this.gameBoard.getBoard()[i][j] == '_') {
                         this.gameBoard.getBoard()[i][j] = PlayerTurnEnums.PLAYER_X.getTurn();
                         this.gameBoard.increaseNumberOfFields();
-                        int score = minimax(this.gameBoard.getBoard(), depth + 1, true);
+                        int score = minimax(this.gameBoard.getBoard(), depth + 1, false);
                         this.gameBoard.getBoard()[i][j] = '_';
                         this.gameBoard.decreaseNumberOfFields();
                         bestScore = Math.min(bestScore, score);
@@ -128,7 +137,7 @@ public class PlayerVersusAiMedium implements SuperInterface {
     }
 
     public int[] checkInput() {
-        String[] input = scanner.nextLine().trim().split("\\s");
+        String[] input = scanner.nextLine().split("\\s");
         int[] coordinates = new int[2];
 
         try {
@@ -142,11 +151,23 @@ public class PlayerVersusAiMedium implements SuperInterface {
         return coordinates;
     }
 
+    public void makeMoveIfPossible() {
+        int[] coordinates = this.artificialPlayer.generateCoordinates();
+        int firstCoordinate = coordinates[0];
+        int secondCoordinate = coordinates[1];
+
+        if (this.gameBoard.getBoard()[firstCoordinate][secondCoordinate] == '_') {
+            this.gameBoard.setBoard(firstCoordinate, secondCoordinate, this.playerTurn);
+        } else {
+            this.makeMoveIfPossible();
+        }
+    }
+
     public void checkSpotAndMakeMove(int[] coordinates) {
         if (this.gameBoard.getBoard()[coordinates[0]][coordinates[1]] != '_') {
             this.printErrorAndAskAgain();
         } else {
-            this.gameBoard.setBoard(coordinates[0], coordinates[1], PlayerTurnEnums.PLAYER_X.getTurn());
+            this.gameBoard.setBoard(coordinates[0], coordinates[1], this.playerTurn);
         }
     }
 

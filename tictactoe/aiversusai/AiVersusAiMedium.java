@@ -1,28 +1,28 @@
-package tictactoe.playerversusai;
+package tictactoe.aiversusai;
 
-import tictactoe.playerconstants.PlayerTurnEnums;
 import tictactoe.ui.SuperInterface;
 import tictactoe.components.Ai;
 import tictactoe.components.GameBoard;
+import tictactoe.playerconstants.PlayerTurnEnums;
 
-import java.util.Scanner;
-
-public class PlayerVersusAiMedium implements SuperInterface {
-    private final GameBoard gameBoard;
+public class AiVersusAiMedium implements SuperInterface {
+    private GameBoard gameBoard;
     private char playerTurn;
-    private final Ai artificialPlayer;
-    private final Scanner scanner;
+    private Ai artificialPlayer;
 
-    public PlayerVersusAiMedium(GameBoard gameBoard, Ai artificialPlayer) {
+    public AiVersusAiMedium(GameBoard gameBoard, Ai artificialPlayer) {
         this.gameBoard = gameBoard;
-        this.artificialPlayer = artificialPlayer;
-        this.playerTurn = PlayerTurnEnums.PLAYER_X.getTurn();
-        this.scanner = new Scanner(System.in);
         gameBoard.initGrid();
+        this.playerTurn = PlayerTurnEnums.PLAYER_X.getTurn();
+        this.artificialPlayer = artificialPlayer;
     }
 
     @Override
     public void start() {
+        this.makeMoveIfPossible();
+        this.gameBoard.increaseNumberOfFields();
+        this.changePlayer();
+
         while (true) {
             this.gameBoard.printGrid();
 
@@ -37,39 +37,48 @@ public class PlayerVersusAiMedium implements SuperInterface {
 
     public void checkTurnAndMakeMove() {
         if (this.playerTurn == PlayerTurnEnums.PLAYER_X.getTurn()) {
-            this.playerMove();
+            this.turnForX();
             this.changePlayer();
         } else {
-            this.aiMove();
+            this.turnForO();
             this.changePlayer();
         }
     }
 
-    public void playerMove() {
-        System.out.println("Enter the coordinates: ");
+    public void makeMoveIfPossible() {
+        int[] coordinates = this.artificialPlayer.generateCoordinates();
+        int firstCoordinate = coordinates[0];
+        int secondCoordinate = coordinates[1];
 
-        int[] coordinates = this.checkInput();
-        this.checkSpotAndMakeMove(coordinates);
+        if (this.gameBoard.getBoard()[firstCoordinate][secondCoordinate] == '_') {
+            this.gameBoard.setBoard(firstCoordinate, secondCoordinate, this.playerTurn);
+        } else {
+            this.makeMoveIfPossible();
+        }
     }
 
-    public void aiMove() {
+    public void turnForO() {
         System.out.println("Making move level \"medium\"");
+        this.evaluateBestMove();
+    }
 
+    public void turnForX() {
+        System.out.println("Making move level \"medium\"");
         this.evaluateBestMove();
     }
 
     public void evaluateBestMove() {
-        int bestScore = -999999;
+        int bestScore = -9999;
         int[] move = new int[2];
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 if (this.gameBoard.getBoard()[i][j] == '_') {
-                    this.gameBoard.getBoard()[i][j] = PlayerTurnEnums.PLAYER_O.getTurn();
+                    this.gameBoard.getBoard()[i][j] = this.playerTurn;
                     this.gameBoard.increaseNumberOfFields();
-                    int score = minimax(this.gameBoard.getBoard(), 0, false);
-                    this.gameBoard.decreaseNumberOfFields();
+                    int score = minimax(this.gameBoard.getBoard(), 1, false);
                     this.gameBoard.getBoard()[i][j] = '_';
+                    this.gameBoard.decreaseNumberOfFields();
                     if (score > bestScore) {
                         bestScore = score;
                         move[0] = i;
@@ -104,12 +113,14 @@ public class PlayerVersusAiMedium implements SuperInterface {
                         int score = minimax(this.gameBoard.getBoard(), depth + 1, false);
                         this.gameBoard.getBoard()[i][j] = '_';
                         this.gameBoard.decreaseNumberOfFields();
-                        bestScore = Math.max(bestScore, score);
+                        if (score > bestScore) {
+                            bestScore = score;
+                        }
                     }
                 }
             }
             return bestScore;
-        }  else {
+        } else {
             int bestScore = 99999;
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
@@ -119,40 +130,14 @@ public class PlayerVersusAiMedium implements SuperInterface {
                         int score = minimax(this.gameBoard.getBoard(), depth + 1, true);
                         this.gameBoard.getBoard()[i][j] = '_';
                         this.gameBoard.decreaseNumberOfFields();
-                        bestScore = Math.min(bestScore, score);
+                        if (score < bestScore) {
+                            bestScore = score;
+                        }
                     }
                 }
             }
             return bestScore;
         }
-    }
-
-    public int[] checkInput() {
-        String[] input = scanner.nextLine().trim().split("\\s");
-        int[] coordinates = new int[2];
-
-        try {
-            coordinates[0] = Integer.parseInt(input[0]) - 1;
-            coordinates[1] = Integer.parseInt(input[1]) - 1;
-        } catch (NumberFormatException e) {
-            System.out.println("You should enter numbers!");
-            this.checkInput();
-        }
-
-        return coordinates;
-    }
-
-    public void checkSpotAndMakeMove(int[] coordinates) {
-        if (this.gameBoard.getBoard()[coordinates[0]][coordinates[1]] != '_') {
-            this.printErrorAndAskAgain();
-        } else {
-            this.gameBoard.setBoard(coordinates[0], coordinates[1], PlayerTurnEnums.PLAYER_X.getTurn());
-        }
-    }
-
-    public void printErrorAndAskAgain() {
-        System.out.println("This cell is occupied! Choose another one!");
-        this.playerMove();
     }
 
     public void changePlayer() {
@@ -196,13 +181,10 @@ public class PlayerVersusAiMedium implements SuperInterface {
             return true;
         }
 
-        if (this.gameBoard.getFilledFields() == 9) {
-            return true;
-        }
         return false;
     }
 
-    //first quick version of isGameFinished
+    //early version checkgamestate because i'm too lazy right now
 
     public boolean isGameFinished() {
         if (this.gameBoard.getBoard()[0][0] == 'X' && this.gameBoard.getBoard()[0][1] == 'X' && this.gameBoard.getBoard()[0][2] == 'X') {
