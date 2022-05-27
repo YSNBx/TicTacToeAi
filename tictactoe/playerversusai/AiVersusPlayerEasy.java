@@ -47,7 +47,7 @@ public class AiVersusPlayerEasy implements SuperInterface {
     }
 
     public void turnForO() {
-        System.out.println("Enter the coordinates: ");
+        System.out.println("Enter the coordinates: (e.g. \"1 3\", with a space inbetween");
 
         int[] coordinates = this.checkInput();
         this.checkSpotAndMakeMove(coordinates);
@@ -106,7 +106,7 @@ public class AiVersusPlayerEasy implements SuperInterface {
         }
     }
 
-    //early version checkgamestate because i'm too lazy right now
+    //first quick version of isGameFinished
 
     public boolean isGameFinished() {
         if (this.gameGrid.getBoard()[0][0] == 'X' && this.gameGrid.getBoard()[0][1] == 'X' && this.gameGrid.getBoard()[0][2] == 'X') {

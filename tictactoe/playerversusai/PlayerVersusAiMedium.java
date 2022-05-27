@@ -115,8 +115,7 @@ public class PlayerVersusAiMedium implements SuperInterface {
                 for (int j = 0; j < 3; j++) {
                     if (this.gameBoard.getBoard()[i][j] == '_') {
                         this.gameBoard.getBoard()[i][j] = PlayerTurnEnums.PLAYER_X.getTurn();
-                        this.gameBoard.increaseNumberOfFields();
-                        int score = minimax(this.gameBoard.getBoard(), depth + 1, true);
+                        this.gameBoard.increaseNumberOfFields();                        int score = minimax(this.gameBoard.getBoard(), depth + 1, true);
                         this.gameBoard.getBoard()[i][j] = '_';
                         this.gameBoard.decreaseNumberOfFields();
                         bestScore = Math.min(bestScore, score);

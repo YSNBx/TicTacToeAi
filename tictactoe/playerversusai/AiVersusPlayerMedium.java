@@ -55,15 +55,14 @@ public class AiVersusPlayerMedium implements SuperInterface {
     }
 
     public void playerMove() {
-        System.out.println("Enter the coordinates: ");
+        System.out.println("Enter the coordinates: (e.g. \"1 3\", with a space inbetween");
 
         int[] coordinates = this.checkInput();
         this.checkSpotAndMakeMove(coordinates);
     }
 
     public void aiMove() {
-        System.out.println("Making move level \"easy\"");
-
+        System.out.println("Making move level \"medium\"");
         this.evaluateBestMove();
     }
 
@@ -74,7 +73,7 @@ public class AiVersusPlayerMedium implements SuperInterface {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 if (this.gameBoard.getBoard()[i][j] == '_') {
-                    this.gameBoard.getBoard()[i][j] = PlayerTurnEnums.PLAYER_O.getTurn();
+                    this.gameBoard.getBoard()[i][j] = this.playerTurn;
                     this.gameBoard.increaseNumberOfFields();
                     int score = minimax(this.gameBoard.getBoard(), 0, false);
                     this.gameBoard.getBoard()[i][j] = '_';
