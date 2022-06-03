@@ -9,9 +9,9 @@ import tictactoe.playerconstants.PlayerTurnEnums;
 import java.util.Scanner;
 
 public class AiVersusPlayerEasy implements SuperInterface {
-    private GameBoard gameGrid;
+    private final GameBoard gameGrid;
     private char playerTurn;
-    private Ai artificialPlayer;
+    private final Ai artificialPlayer;
     private final Scanner scanner;
 
     public AiVersusPlayerEasy(GameBoard gameGrid, Ai artificialPlayer) {

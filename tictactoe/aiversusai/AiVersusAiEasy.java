@@ -6,13 +6,13 @@ import tictactoe.components.GameBoard;
 import tictactoe.playerconstants.PlayerTurnEnums;
 
 public class AiVersusAiEasy implements SuperInterface {
-    private GameBoard gameGrid;
+    private GameBoard gameBoard;
     private char playerTurn;
     private Ai artificialPlayer;
 
-    public AiVersusAiEasy(GameBoard gameGrid, Ai artificialPlayer) {
-        this.gameGrid = gameGrid;
-        gameGrid.initGrid();
+    public AiVersusAiEasy(GameBoard gameBoard, Ai artificialPlayer) {
+        this.gameBoard = gameBoard;
+        gameBoard.initGrid();
         this.playerTurn = PlayerTurnEnums.PLAYER_X.getTurn();
         this.artificialPlayer = artificialPlayer;
     }
@@ -20,7 +20,7 @@ public class AiVersusAiEasy implements SuperInterface {
     @Override
     public void start() {
         while (true) {
-            this.gameGrid.printGrid();
+            this.gameBoard.printGrid();
             
             if (this.isGameFinished()) {
                 break;
@@ -33,7 +33,7 @@ public class AiVersusAiEasy implements SuperInterface {
                 this.turnForO();
                 this.changePlayer(PlayerTurnEnums.PLAYER_X.getTurn());
             }
-            this.gameGrid.increaseNumberOfFields();
+            this.gameBoard.increaseNumberOfFields();
         }
     }
 
@@ -54,8 +54,8 @@ public class AiVersusAiEasy implements SuperInterface {
         int firstCoordinate = coordinates[0];
         int secondCoordinate = coordinates[1];
 
-        if (this.gameGrid.getBoard()[firstCoordinate][secondCoordinate] == '_') {
-            this.gameGrid.setBoard(firstCoordinate, secondCoordinate, this.playerTurn);
+        if (this.gameBoard.getBoard()[firstCoordinate][secondCoordinate] == '_') {
+            this.gameBoard.setBoard(firstCoordinate, secondCoordinate, this.playerTurn);
         } else {
             this.makeMoveIfPossible();
         }
@@ -68,87 +68,87 @@ public class AiVersusAiEasy implements SuperInterface {
     //early version checkgamestate because i'm too lazy right now
 
     public boolean isGameFinished() {
-        if (this.gameGrid.getBoard()[0][0] == 'X' && this.gameGrid.getBoard()[0][1] == 'X' && this.gameGrid.getBoard()[0][2] == 'X') {
+        if (this.gameBoard.getBoard()[0][0] == 'X' && this.gameBoard.getBoard()[0][1] == 'X' && this.gameBoard.getBoard()[0][2] == 'X') {
             System.out.println("X wins\n");
             return true;
         }
 
-        if (this.gameGrid.getBoard()[1][0] == 'X' && this.gameGrid.getBoard()[1][1] == 'X' && this.gameGrid.getBoard()[1][2] == 'X') {
+        if (this.gameBoard.getBoard()[1][0] == 'X' && this.gameBoard.getBoard()[1][1] == 'X' && this.gameBoard.getBoard()[1][2] == 'X') {
             System.out.println("X wins\n");
             return true;
         }
 
-        if (this.gameGrid.getBoard()[2][0] == 'X' && this.gameGrid.getBoard()[2][1] == 'X' && this.gameGrid.getBoard()[2][2] == 'X') {
+        if (this.gameBoard.getBoard()[2][0] == 'X' && this.gameBoard.getBoard()[2][1] == 'X' && this.gameBoard.getBoard()[2][2] == 'X') {
             System.out.println("X wins\n");
             return true;
         }
 
-        if (this.gameGrid.getBoard()[0][0] == 'O' && this.gameGrid.getBoard()[0][1] == 'O' && this.gameGrid.getBoard()[0][2] == 'O') {
+        if (this.gameBoard.getBoard()[0][0] == 'O' && this.gameBoard.getBoard()[0][1] == 'O' && this.gameBoard.getBoard()[0][2] == 'O') {
             System.out.println("O wins\n");
             return true;
         }
 
-        if (this.gameGrid.getBoard()[1][0] == 'O' && this.gameGrid.getBoard()[1][1] == 'O' && this.gameGrid.getBoard()[1][2] == 'O') {
+        if (this.gameBoard.getBoard()[1][0] == 'O' && this.gameBoard.getBoard()[1][1] == 'O' && this.gameBoard.getBoard()[1][2] == 'O') {
             System.out.println("O wins\n");
             return true;
         }
 
-        if (this.gameGrid.getBoard()[2][0] == 'O' && this.gameGrid.getBoard()[2][1] == 'O' && this.gameGrid.getBoard()[2][2] == 'O') {
+        if (this.gameBoard.getBoard()[2][0] == 'O' && this.gameBoard.getBoard()[2][1] == 'O' && this.gameBoard.getBoard()[2][2] == 'O') {
             System.out.println("O wins\n");
             return true;
         }
 
-        if (this.gameGrid.getBoard()[0][0] == 'X' && this.gameGrid.getBoard()[1][0] == 'X' && this.gameGrid.getBoard()[2][0] == 'X') {
+        if (this.gameBoard.getBoard()[0][0] == 'X' && this.gameBoard.getBoard()[1][0] == 'X' && this.gameBoard.getBoard()[2][0] == 'X') {
             System.out.println("X wins\n");
             return true;
         }
 
-        if (this.gameGrid.getBoard()[0][1] == 'X' && this.gameGrid.getBoard()[1][1] == 'X' && this.gameGrid.getBoard()[2][1] == 'X') {
+        if (this.gameBoard.getBoard()[0][1] == 'X' && this.gameBoard.getBoard()[1][1] == 'X' && this.gameBoard.getBoard()[2][1] == 'X') {
             System.out.println("X wins\n");
             return true;
         }
 
-        if (this.gameGrid.getBoard()[0][2] == 'X' && this.gameGrid.getBoard()[1][2] == 'X' && this.gameGrid.getBoard()[2][2] == 'X') {
+        if (this.gameBoard.getBoard()[0][2] == 'X' && this.gameBoard.getBoard()[1][2] == 'X' && this.gameBoard.getBoard()[2][2] == 'X') {
             System.out.println("X wins\n");
             return true;
         }
 
-        if (this.gameGrid.getBoard()[0][0] == 'O' && this.gameGrid.getBoard()[1][0] == 'O' && this.gameGrid.getBoard()[2][0] == 'O') {
+        if (this.gameBoard.getBoard()[0][0] == 'O' && this.gameBoard.getBoard()[1][0] == 'O' && this.gameBoard.getBoard()[2][0] == 'O') {
             System.out.println("O wins\n");
             return true;
         }
 
-        if (this.gameGrid.getBoard()[0][1] == 'O' && this.gameGrid.getBoard()[1][1] == 'O' && this.gameGrid.getBoard()[2][1] == 'O') {
+        if (this.gameBoard.getBoard()[0][1] == 'O' && this.gameBoard.getBoard()[1][1] == 'O' && this.gameBoard.getBoard()[2][1] == 'O') {
             System.out.println("O wins\n");
             return true;
         }
 
-        if (this.gameGrid.getBoard()[0][2] == 'O' && this.gameGrid.getBoard()[1][2] == 'O' && this.gameGrid.getBoard()[2][2] == 'O') {
+        if (this.gameBoard.getBoard()[0][2] == 'O' && this.gameBoard.getBoard()[1][2] == 'O' && this.gameBoard.getBoard()[2][2] == 'O') {
             System.out.println("O wins\n");
             return true;
         }
 
-        if (this.gameGrid.getBoard()[0][0] == 'X' && this.gameGrid.getBoard()[1][1] == 'X' && this.gameGrid.getBoard()[2][2] == 'X') {
+        if (this.gameBoard.getBoard()[0][0] == 'X' && this.gameBoard.getBoard()[1][1] == 'X' && this.gameBoard.getBoard()[2][2] == 'X') {
             System.out.println("X wins\n");
             return true;
         }
 
-        if (this.gameGrid.getBoard()[0][2] == 'X' && this.gameGrid.getBoard()[1][1] == 'X' && this.gameGrid.getBoard()[2][0] == 'X') {
+        if (this.gameBoard.getBoard()[0][2] == 'X' && this.gameBoard.getBoard()[1][1] == 'X' && this.gameBoard.getBoard()[2][0] == 'X') {
             System.out.println("X wins\n");
             return true;
         }
 
-        if (this.gameGrid.getBoard()[0][0] == 'O' && this.gameGrid.getBoard()[1][1] == 'O' && this.gameGrid.getBoard()[2][2] == 'O') {
+        if (this.gameBoard.getBoard()[0][0] == 'O' && this.gameBoard.getBoard()[1][1] == 'O' && this.gameBoard.getBoard()[2][2] == 'O') {
             System.out.println("O wins\n");
             return true;
         }
 
-        if (this.gameGrid.getBoard()[0][2] == 'O' && this.gameGrid.getBoard()[1][1] == 'O' && this.gameGrid.getBoard()[2][0] == 'O') {
+        if (this.gameBoard.getBoard()[0][2] == 'O' && this.gameBoard.getBoard()[1][1] == 'O' && this.gameBoard.getBoard()[2][0] == 'O') {
             System.out.println("O wins\n");
             return true;
         }
 
-        if (this.gameGrid.getFilledFields() == 9) {
+        if (this.gameBoard.getFilledFields() == 9) {
             System.out.println("Draw");
             return true;
         }
