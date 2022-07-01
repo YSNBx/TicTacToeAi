@@ -108,7 +108,8 @@ public class PlayerVersusAiMedium extends PlayerVsAiAbstract {
                 for (int j = 0; j < 3; j++) {
                     if (this.gameGrid.getBoard()[i][j] == '_') {
                         this.gameGrid.getBoard()[i][j] = PlayerTurnEnums.PLAYER_X.getTurn();
-                        this.gameGrid.increaseNumberOfFields();                        int score = minimax(this.gameGrid.getBoard(), depth + 1, true);
+                        this.gameGrid.increaseNumberOfFields();                        
+                        int score = minimax(this.gameGrid.getBoard(), depth + 1, true);
                         this.gameGrid.getBoard()[i][j] = '_';
                         this.gameGrid.decreaseNumberOfFields();
                         bestScore = Math.min(bestScore, score);
